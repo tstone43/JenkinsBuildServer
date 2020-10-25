@@ -19,6 +19,11 @@ resource "azurerm_virtual_network" "example" {
   location            = azurerm_resource_group.myResGroup.location
   resource_group_name = azurerm_resource_group.myResGroup.name
   address_space       = ["10.0.0.0/16"]
+  
+  subnet {
+    name           = "default"
+    address_prefix = "10.0.1.0/24"
+  }
 }
 
 resource "azurerm_network_interface" "jenkinsServerNIC_ID" {
