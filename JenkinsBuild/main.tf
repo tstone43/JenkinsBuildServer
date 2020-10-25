@@ -2,30 +2,42 @@ provider "azurerm" {
   version = "1.43.0"
 }
 
+resource "azurerm_resource_group" "myResGroup" {
+  name     = "Dev2"
+  location = "eastus"
+}
+
 resource "azurerm_public_ip" "jenkinsServerPublicIP" {
   name                = "jenkinsServerIP"
-  location            = "eastus"
-  resource_group_name = "Dev2"
+  location            = azurerm_resource_group.myResGroup.location
+  resource_group_name = azurerm_resource_group.myResGroup.name
   allocation_method   = "Static"
+}
+
+resource "azurerm_virtual_network" "example" {
+  name                = "dev2-vnet"
+  location            = azurerm_resource_group.myResGroup.location
+  resource_group_name = azurerm_resource_group.myResGroup.name
+  address_space       = ["10.0.0.0/16"]
 }
 
 resource "azurerm_network_interface" "jenkinsServerNIC_ID" {
   name                = "jenkinsNetworkInterface"
-  location            = "eastus"
-  resource_group_name = "Dev2"
+  location            = azurerm_resource_group.myResGroup.location
+  resource_group_name = azurerm_resource_group.myResGroup.name
 
   ip_configuration {
     name                          = "JenkinsIPConfig"
     subnet_id                     = var.subnetID
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "${azurerm_public_ip.jenkinsServerPublicIP.id}"
+    public_ip_address_id          = azurerm_public_ip.jenkinsServerPublicIP.id
   }
 }
 resource "azurerm_virtual_machine" "jenkinsServerVM" {
   name                  = "cloudskillsvm"
-  location              = "eastus"
-  resource_group_name   = "Dev2"
-  network_interface_ids = ["${azurerm_network_interface.jenkinsServerNIC_ID.id}"]
+  location              = azurerm_resource_group.myResGroup.location
+  resource_group_name   = azurerm_resource_group.myResGroup.name
+  network_interface_ids = [azurerm_network_interface.jenkinsServerNIC_ID.id]
   vm_size               = "Standard_DS1_v2"
 
   storage_image_reference {
