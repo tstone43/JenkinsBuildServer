@@ -22,7 +22,7 @@ resource "azurerm_virtual_network" "example" {
   
   subnet {
     name           = "default"
-    address_prefix = "10.0.1.0/24"
+    address_prefix = "10.0.0.0/24"
   }
 }
 
