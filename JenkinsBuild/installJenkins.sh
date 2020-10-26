@@ -16,4 +16,6 @@ sudo ufw allow 8080
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 #8d8b...
 
-#Lesson 6 Public Repository URL: https://github.com/AdminTurnedDevOps/AWS_Solutions_Architect_Python
+#Lesson 6 Public Repositories URLs: 
+#https://github.com/AdminTurnedDevOps/AWS_Solutions_Architect_Python
+#https://github.com/AdminTurnedDevOps/webcore
