@@ -1,10 +1,11 @@
 provider "azurerm" {
-  version = "1.43.0"
+  version = "=2.20.0"
+  features {}
 }
 
 resource "azurerm_resource_group" "myResGroup" {
-  name     = "Dev2"
-  location = "eastus"
+  name     = "terraform-jenkins"
+  location = "westus2"
 }
 
 resource "azurerm_public_ip" "jenkinsServerPublicIP" {
@@ -12,18 +13,6 @@ resource "azurerm_public_ip" "jenkinsServerPublicIP" {
   location            = azurerm_resource_group.myResGroup.location
   resource_group_name = azurerm_resource_group.myResGroup.name
   allocation_method   = "Static"
-}
-
-resource "azurerm_virtual_network" "example" {
-  name                = "dev2-vnet"
-  location            = azurerm_resource_group.myResGroup.location
-  resource_group_name = azurerm_resource_group.myResGroup.name
-  address_space       = ["10.0.0.0/16"]
-  
-  subnet {
-    name           = "default"
-    address_prefix = "10.0.0.0/24"
-  }
 }
 
 resource "azurerm_network_interface" "jenkinsServerNIC_ID" {

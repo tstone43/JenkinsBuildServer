@@ -1,4 +1,4 @@
-$vnetName = "dev2-vnet"
+$vnetName = "vnet-0"
 # Retrieve ID of virtual network
 $(Get-AzVirtualNetwork -Name $vnetName).id
 
